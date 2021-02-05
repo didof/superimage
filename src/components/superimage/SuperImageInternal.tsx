@@ -1,9 +1,9 @@
 import {
-  useState,
   createRef,
   useContext,
   useEffect,
   FunctionComponent,
+  ReactNode,
 } from 'react'
 import { getBasename } from '../../utils/getBasename'
 import { SuperImageContext } from './SuperImage.Provider'
@@ -40,8 +40,6 @@ const SuperImageInternal: FunctionComponent<SuperImageInternalProps> = ({
        * there is only one
        */
       const entry = entries[0]
-      console.log(entry.intersectionRatio)
-      console.log(entry.isIntersecting)
 
       /**
        * Keeping in mind that until we impose differently, imageRef
@@ -92,7 +90,7 @@ const SuperImageInternal: FunctionComponent<SuperImageInternalProps> = ({
     }
   }, [src, imageSrc, imageRef])
 
-  return <img ref={imageRef} src={imageSrc} />
+  return <img className='superimage' ref={imageRef} src={imageSrc} />
 }
 
 export default SuperImageInternal

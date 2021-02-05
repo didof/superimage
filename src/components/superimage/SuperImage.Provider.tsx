@@ -13,7 +13,7 @@ export const SuperImageContext = createContext<SuperImageContextI>({
 })
 
 interface ISuperImageProvider {
-  children: React.ReactNode | undefined
+  children?: React.ReactNode
 }
 
 const SuperImageProvider: FunctionComponent<ISuperImageProvider> = ({
