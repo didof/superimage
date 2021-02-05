@@ -1,4 +1,5 @@
 import {
+  useState,
   createRef,
   useContext,
   useEffect,
@@ -13,12 +14,17 @@ interface SuperImageInternalProps {
   alt?: string
 }
 
+interface OutputWrappers {
+  withRedirectToUrl?: string
+}
+
 const SuperImageInternal: FunctionComponent<SuperImageInternalProps> = ({
   src,
   alt,
 }) => {
-  const { imageSrc, setImageSrc } = useContext(SuperImageContext)
   const imageRef = createRef<HTMLImageElement>()
+  const { state, dispatch } = useContext(SuperImageContext)
+  const { imageSrc } = state
 
   let imageElement: Element
   useEffect(() => {
@@ -52,7 +58,7 @@ const SuperImageInternal: FunctionComponent<SuperImageInternalProps> = ({
        * 3. The element is entering the window
        */
       if (!didCancel && (entry.intersectionRatio > 0 || entry.isIntersecting)) {
-        setImageSrc!(src)
+        dispatch({ type: 'setImageSrc', payload: src })
         observer.unobserve(imageElement)
       }
       /**
@@ -72,7 +78,7 @@ const SuperImageInternal: FunctionComponent<SuperImageInternalProps> = ({
          * fallback for older browsers
          */
         imageElement.setAttribute('loading', 'lazy')
-        setImageSrc!(src)
+        dispatch({ type: 'setImageSrc', payload: src })
       } else {
         observer = new IntersectionObserver(observation, options)
         observer.observe(imageElement)

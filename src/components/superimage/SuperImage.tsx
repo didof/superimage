@@ -7,10 +7,7 @@ import SuperImageInternal from './SuperImageInternal'
 
 // children
 import WithRedirectToSrc from './children/WithRedirectToSrc'
-import {
-  assertChildAmount,
-  countChildrenByName,
-} from '../../utils/countChildren'
+import { assertChildAmount } from '../../utils/countChildren'
 
 // interface
 interface SuperImageProps {

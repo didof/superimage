@@ -1,33 +1,31 @@
-import { useState, createContext, FunctionComponent } from 'react'
-
-interface SuperImageContextI {
-  imageSrc: string
-  setImageSrc?: React.Dispatch<React.SetStateAction<string>>
-}
+import { useReducer, createContext, FunctionComponent } from 'react'
+import superImageReducer, {
+  SuperImageAction,
+  SuperImageState,
+} from './SuperImage.reducer'
 
 const placeHolder =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII='
 
-export const SuperImageContext = createContext<SuperImageContextI>({
+const initialState: SuperImageState = {
   imageSrc: placeHolder,
-})
-
-interface ISuperImageProvider {
-  children?: React.ReactNode
 }
 
-const SuperImageProvider: FunctionComponent<ISuperImageProvider> = ({
+export const SuperImageContext = createContext<{
+  state: SuperImageState
+  dispatch: React.Dispatch<SuperImageAction>
+}>({ state: initialState, dispatch: () => null })
+
+interface SuperImageProviderProps {
+  children?: React.ReactNode
+}
+const SuperImageProvider: FunctionComponent<SuperImageProviderProps> = ({
   children,
 }) => {
-  const [imageSrc, setImageSrc] = useState(placeHolder)
+  const [state, dispatch] = useReducer(superImageReducer, initialState)
 
   return (
-    <SuperImageContext.Provider
-      value={{
-        imageSrc,
-        setImageSrc,
-      }}
-    >
+    <SuperImageContext.Provider value={{ state, dispatch }}>
       {children}
     </SuperImageContext.Provider>
   )
