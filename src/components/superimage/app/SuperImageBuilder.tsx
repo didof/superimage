@@ -12,6 +12,7 @@ import SuperImageContext from './SuperImageContext'
 interface SuperImageBuilderProps {
   src: string
   alt?: string
+  prefetch?: boolean
   directives: SuperImageDirectives
 }
 
@@ -28,7 +29,7 @@ const SuperImageBuilder: FunctionComponent<SuperImageBuilderProps> = ({
   const { state, dispatch } = useContext(SuperImageContext)
   const { imageSrc } = state
 
-  const { withRedirectToSrc } = directives
+  const { prefetch, withRedirectToSrc } = directives
 
   let imageElement: Element
   useEffect(() => {
@@ -78,20 +79,21 @@ const SuperImageBuilder: FunctionComponent<SuperImageBuilderProps> = ({
     }
 
     if (imageRef && imageSrc !== src) {
-      if (!IntersectionObserver) {
+      if (!IntersectionObserver || prefetch) {
         /**
          * fallback for older browsers
          */
         imageElement.setAttribute('loading', 'lazy')
         dispatch({ type: 'setImageSrc', payload: src })
-      } else {
-        observer = new IntersectionObserver(observation, options)
-        if (!imageElement) {
-          console.warn('aooo', imageElement)
-          return
-        }
-        observer.observe(imageElement)
+        return
       }
+
+      observer = new IntersectionObserver(observation, options)
+      if (!imageElement) {
+        console.warn('aooo', imageElement)
+        return
+      }
+      observer.observe(imageElement)
     }
 
     /**

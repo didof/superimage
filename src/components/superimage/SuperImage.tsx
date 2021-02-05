@@ -15,13 +15,16 @@ import './style.css'
 interface SuperImageProps {
   children?: ReactNode
   src: string
+  prefetch?: boolean
 }
 
 export type SuperImageDirectives = {
+  prefetch: boolean
   withRedirectToSrc: boolean
 }
 
 const defaultDirectives: SuperImageDirectives = {
+  prefetch: false,
   withRedirectToSrc: false,
 }
 
@@ -32,6 +35,10 @@ class SuperImage extends React.Component<SuperImageProps> {
 
   constructor(props: SuperImageProps) {
     super(props)
+
+    if (this.props.prefetch) {
+      this.directives.prefetch = true
+    }
 
     const { children } = this.props
 

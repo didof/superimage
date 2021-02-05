@@ -16,8 +16,10 @@ function App() {
   return (
     <div className='grid' id='app'>
       {monkeys.map((monkey, index) => {
+        const isEven = index % 2 === 0
+        console.log(isEven)
         return (
-          <SuperImage key={index} src={monkeys[index]}>
+          <SuperImage key={index} src={monkeys[index]} prefetch={isEven}>
             <SuperImage.WithRedirectToSrc />
           </SuperImage>
         )
