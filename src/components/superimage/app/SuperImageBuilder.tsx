@@ -51,6 +51,8 @@ const SuperImageBuilder: FunctionComponent<SuperImageBuilderProps> = ({
        */
       const entry = entries[0]
 
+      console.log(entry)
+
       /**
        * Keeping in mind that until we impose differently, imageRef
        * corresponds to the placeholder (see the variable placeholder in
@@ -72,8 +74,7 @@ const SuperImageBuilder: FunctionComponent<SuperImageBuilderProps> = ({
 
     // TODO: make this customizable
     const options: IntersectionObserverInit = {
-      threshold: 0.01,
-      rootMargin: '75%',
+      threshold: 0,
     }
 
     if (imageRef && imageSrc !== src) {
@@ -120,6 +121,7 @@ const SuperImageBuilder: FunctionComponent<SuperImageBuilderProps> = ({
       ref={imageRef}
       src={imageSrc}
       onClick={handleClick()}
+      width='100%'
     />
   )
 }
