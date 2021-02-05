@@ -1,10 +1,9 @@
 import {
-  useState,
+  useRef,
   createRef,
   useContext,
   useEffect,
   FunctionComponent,
-  ReactNode,
 } from 'react'
 import { getBasename } from '../../utils/getBasename'
 import { SuperImageContext } from './SuperImage.Provider'
@@ -22,9 +21,10 @@ const SuperImageInternal: FunctionComponent<SuperImageInternalProps> = ({
   src,
   alt,
 }) => {
-  const imageRef = createRef<HTMLImageElement>()
+  const imageRef = useRef<HTMLImageElement>(null)
+  // const imageRef = createRef<HTMLImageElement>()
   const { state, dispatch } = useContext(SuperImageContext)
-  const { imageSrc } = state
+  const { imageSrc, redirectUrl } = state
 
   let imageElement: Element
   useEffect(() => {
@@ -33,6 +33,8 @@ const SuperImageInternal: FunctionComponent<SuperImageInternalProps> = ({
     let imageAlt = alt
     if (!alt) imageAlt = getBasename(src)
     imageElement.setAttribute('alt', imageAlt!)
+
+    dispatch({ type: 'setRedirectUrl', payload: src })
   }, [])
 
   useEffect(() => {
@@ -81,6 +83,10 @@ const SuperImageInternal: FunctionComponent<SuperImageInternalProps> = ({
         dispatch({ type: 'setImageSrc', payload: src })
       } else {
         observer = new IntersectionObserver(observation, options)
+        if (!imageElement) {
+          console.warn('aooo', imageElement)
+          return
+        }
         observer.observe(imageElement)
       }
     }
@@ -96,7 +102,22 @@ const SuperImageInternal: FunctionComponent<SuperImageInternalProps> = ({
     }
   }, [src, imageSrc, imageRef])
 
-  return <img className='superimage' ref={imageRef} src={imageSrc} />
+  const handleClick = () => {
+    if (redirectUrl) {
+      return () => window.open(redirectUrl, '_blank')
+    } else {
+      return () => {}
+    }
+  }
+
+  return (
+    <img
+      className='superimage'
+      ref={imageRef}
+      src={imageSrc}
+      onClick={handleClick()}
+    />
+  )
 }
 
 export default SuperImageInternal
