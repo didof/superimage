@@ -1,11 +1,8 @@
 export type SuperImageState = {
   imageSrc: string
-  redirectUrl?: string
 }
 
-export type SuperImageAction =
-  | { type: 'setImageSrc'; payload: string }
-  | { type: 'setRedirectUrl'; payload: string }
+export type SuperImageAction = { type: 'setImageSrc'; payload: string }
 
 const superImageReducer = (
   state: SuperImageState,
@@ -15,8 +12,6 @@ const superImageReducer = (
   switch (type) {
     case 'setImageSrc':
       return { ...state, imageSrc: payload }
-    case 'setRedirectUrl':
-      return { ...state, redirectUrl: payload }
   }
   return state
 }

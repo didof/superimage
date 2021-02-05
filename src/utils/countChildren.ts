@@ -37,7 +37,7 @@ export const assertChildAmount = (
   children: ReactNode | ReactNode[],
   name: string,
   amount: number | string
-): true | never => {
+): number | never => {
   if (typeof amount === 'string') {
     if (amount.length < 2) throw badUsageError
 
@@ -63,5 +63,5 @@ export const assertChildAmount = (
 
   if (counted > amount) throw tooManyOfError
 
-  return true
+  return counted
 }

@@ -1,30 +1,34 @@
 import {
   useRef,
-  createRef,
   useContext,
   useEffect,
+  useCallback,
   FunctionComponent,
 } from 'react'
-import { getBasename } from '../../utils/getBasename'
-import { SuperImageContext } from './SuperImage.Provider'
+import { getBasename } from '../../../utils/getBasename'
+import { SuperImageDirectives } from '../SuperImage'
+import SuperImageContext from './SuperImageContext'
 
-interface SuperImageInternalProps {
+interface SuperImageBuilderProps {
   src: string
   alt?: string
+  directives: SuperImageDirectives
 }
 
 interface OutputWrappers {
   withRedirectToUrl?: string
 }
 
-const SuperImageInternal: FunctionComponent<SuperImageInternalProps> = ({
+const SuperImageBuilder: FunctionComponent<SuperImageBuilderProps> = ({
   src,
   alt,
+  directives,
 }) => {
   const imageRef = useRef<HTMLImageElement>(null)
-  // const imageRef = createRef<HTMLImageElement>()
   const { state, dispatch } = useContext(SuperImageContext)
-  const { imageSrc, redirectUrl } = state
+  const { imageSrc } = state
+
+  const { withRedirectToSrc } = directives
 
   let imageElement: Element
   useEffect(() => {
@@ -33,8 +37,6 @@ const SuperImageInternal: FunctionComponent<SuperImageInternalProps> = ({
     let imageAlt = alt
     if (!alt) imageAlt = getBasename(src)
     imageElement.setAttribute('alt', imageAlt!)
-
-    dispatch({ type: 'setRedirectUrl', payload: src })
   }, [])
 
   useEffect(() => {
@@ -103,8 +105,8 @@ const SuperImageInternal: FunctionComponent<SuperImageInternalProps> = ({
   }, [src, imageSrc, imageRef])
 
   const handleClick = () => {
-    if (redirectUrl) {
-      return () => window.open(redirectUrl, '_blank')
+    if (withRedirectToSrc) {
+      return () => window.open(src, '_blank')
     } else {
       return () => {}
     }
@@ -112,7 +114,9 @@ const SuperImageInternal: FunctionComponent<SuperImageInternalProps> = ({
 
   return (
     <img
-      className='superimage'
+      className={`superimage ${
+        withRedirectToSrc ? 'superimage-pointer' : null
+      }`}
       ref={imageRef}
       src={imageSrc}
       onClick={handleClick()}
@@ -120,4 +124,4 @@ const SuperImageInternal: FunctionComponent<SuperImageInternalProps> = ({
   )
 }
 
-export default SuperImageInternal
+export default SuperImageBuilder

@@ -11,9 +11,10 @@ const monkeys = [
 function App() {
   return (
     <div className='grid'>
-      <SuperImage src={monkeys[1]}>
+      <SuperImage src={monkeys[0]}>
         <SuperImage.WithRedirectToSrc />
       </SuperImage>
+      {/* <SuperImage src={monkeys[1]} /> */}
     </div>
   )
 }
