@@ -79,7 +79,12 @@ const SuperImageBuilder: FunctionComponent<SuperImageBuilderProps> = ({
     }
 
     if (imageRef && imageSrc !== src) {
-      if (!IntersectionObserver || prefetch) {
+      if (prefetch) {
+        dispatch({ type: 'setImageSrc', payload: src })
+        return
+      }
+
+      if (!IntersectionObserver) {
         /**
          * fallback for older browsers
          */
