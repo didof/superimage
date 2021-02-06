@@ -1,15 +1,16 @@
 // core
-import React, { ReactElement, ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 
 // skaffold
 import SuperImageProvider from './app/SuperImageProvider'
 import SuperImageBuilder from './app/SuperImageBuilder'
 
 // children
-import WithRedirectToSrc from './children/WithRedirectToSrc'
 import { assertChildAmount } from '../../utils/countChildren'
 
 import './style.css'
+import RedirectToSrc from './children/redirectToSrc'
+import LowResolution from './children/lowResolution'
 
 // interface
 interface SuperImageProps {
@@ -29,7 +30,8 @@ const defaultDirectives: SuperImageDirectives = {
 }
 
 class SuperImage extends React.Component<SuperImageProps> {
-  static WithRedirectToSrc = WithRedirectToSrc
+  static RedirectToSrc = RedirectToSrc
+  static LowResolution = LowResolution
 
   directives: SuperImageDirectives = defaultDirectives
 

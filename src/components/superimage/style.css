@@ -1,6 +1,8 @@
 .superimage {
+  object-fit: cover;
+  width: 100%;
 }
 
 .superimage-pointer {
-    cursor: pointer;
+  cursor: pointer;
 }

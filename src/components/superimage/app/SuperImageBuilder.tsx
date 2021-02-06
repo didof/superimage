@@ -128,7 +128,6 @@ const SuperImageBuilder: FunctionComponent<SuperImageBuilderProps> = ({
       ref={imageRef}
       src={imageSrc}
       onClick={handleClick()}
-      width='100%'
     />
   )
 }
