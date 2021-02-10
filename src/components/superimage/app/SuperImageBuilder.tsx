@@ -30,6 +30,7 @@ const SuperImageBuilder: FunctionComponent<SuperImageBuilderProps> = ({
   const { imageSrc } = state
 
   const { prefetch, withRedirectToSrc } = directives
+  console.log(withRedirectToSrc)
 
   let imageElement: Element
   useEffect(() => {
@@ -52,8 +53,6 @@ const SuperImageBuilder: FunctionComponent<SuperImageBuilderProps> = ({
        */
       const entry = entries[0]
 
-      console.log(entry)
-
       /**
        * Keeping in mind that until we impose differently, imageRef
        * corresponds to the placeholder (see the variable placeholder in
@@ -75,7 +74,7 @@ const SuperImageBuilder: FunctionComponent<SuperImageBuilderProps> = ({
 
     // TODO: make this customizable
     const options: IntersectionObserverInit = {
-      threshold: 0,
+      threshold: 0
     }
 
     if (imageRef && imageSrc !== src) {
@@ -95,7 +94,6 @@ const SuperImageBuilder: FunctionComponent<SuperImageBuilderProps> = ({
 
       observer = new IntersectionObserver(observation, options)
       if (!imageElement) {
-        console.warn('aooo', imageElement)
         return
       }
       observer.observe(imageElement)

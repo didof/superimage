@@ -10,7 +10,6 @@ import { assertChildAmount } from '../../utils/countChildren'
 
 import './style.css'
 import RedirectToSrc from './children/redirectToSrc'
-import LowResolution from './children/lowResolution'
 
 // interface
 interface SuperImageProps {
@@ -31,7 +30,6 @@ const defaultDirectives: SuperImageDirectives = {
 
 class SuperImage extends React.Component<SuperImageProps> {
   static RedirectToSrc = RedirectToSrc
-  static LowResolution = LowResolution
 
   directives: SuperImageDirectives = defaultDirectives
 
@@ -48,7 +46,7 @@ class SuperImage extends React.Component<SuperImageProps> {
      * If not children are used the delegate is not needed
      */
     if (children) {
-      if (assertChildAmount(children, 'WithRedirectToSrc', 1)) {
+      if (assertChildAmount(children, 'RedirectToSrc', 1)) {
         this.directives.withRedirectToSrc = true
       }
     }
